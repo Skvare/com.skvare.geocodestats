@@ -39,16 +39,26 @@ class CRM_Geocodestats_Form_Report_Geostats extends CRM_Report_Form {
           'postal_code' => NULL,
           'state_province_id' => ['title' => E::ts('State/Province')],
           'country_id' => ['title' => E::ts('Country')],
-          'geo_code_1' => ['title' => E::ts('Latitude')],
-          'geo_code_2' => ['title' => E::ts('Longitude')],
+          'geo_code_1' => ['title' => E::ts('Address Latitude')],
+          'geo_code_2' => ['title' => E::ts('Address Longitude')],
         ],
-        'grouping' => 'contact-fields',
+        'grouping' => 'address-fields',
       ],
       'civicrm_geocodestats' => [
         'dao' => 'CRM_Geocodestats_DAO_Geocodestats',
         'fields' => [
           'status' => ['title' => E::ts('Geo Code Status')],
           'created_date' => ['title' => E::ts('Geo Coding Date')],
+          'geocodestats_geo_code_1' => [
+            'name' => 'geo_code_1',
+            'title' => ts('Geo Code Latitude'),
+            'default' => TRUE,
+          ],
+          'geocodestats_geo_code_2' => [
+            'name' => 'geo_code_2',
+            'title' => ts('Geo Code Longitude'),
+            'default' => TRUE,
+          ],
         ],
         'filters' => [
           'created_date' => [
@@ -56,8 +66,14 @@ class CRM_Geocodestats_Form_Report_Geostats extends CRM_Report_Form {
             'operatorType' => CRM_Report_Form::OP_DATE,
             'type' => CRM_Utils_Type::T_DATE
           ],
+          'status' => [
+            'title' => ts('Geo Coding Status', ['domain' => 'com.skvare.geostatus']),
+            'operatorType' => CRM_Report_Form::OP_SELECT,
+            'options' => ['' => ts('- Any -')] + CRM_Geocodestats_BAO_Geocodestats::status(),
+            'type' => CRM_Utils_Type::T_STRING,
+          ],
         ],
-        'grouping' => 'contact-fields',
+        'grouping' => 'geocodestats-fields',
       ],
     ];
     $this->_groupFilter = TRUE;

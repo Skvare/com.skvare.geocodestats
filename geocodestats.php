@@ -170,28 +170,33 @@ function geocodestats_civicrm_themes(&$themes) {
 //  ));
 //  _geocodestats_civix_navigationMenu($menu);
 //}
-
-function geocodestats_civicrm_geocoderFormat($geoProvider, &$values, $xml) {
-  if ($geoProvider !== 'Google') {
-    return;
+function geocodestats_civicrm_geocoderFormatResult($geoProvider, &$values, $status) {
+  if (is_object($geoProvider)) {
+    $providerClass = explode('_', get_class($geoProvider));
+    $geoProviderName = end($providerClass);
   }
+  else {
+    $geoProviderName = $geoProvider;
+  }
+
   $geoCodeStats = [];
-  if ($xml === FALSE) {
-    $geoCodeStats['status'] = 'Failed';
-  }
 
-  if (isset($xml->status)) {
-    if ($xml->status == 'OK' && is_a($xml->result->geometry->location, 'SimpleXMLElement')) {
-      $ret = $xml->result->geometry->location->children();
-      if ($ret->lat && $ret->lng) {
-        $geoCodeStats['status'] = 'Success';
+  if ($geoProviderName == 'Google') {
+    $geoCodeStats['status'] = 'Failed';
+    if ($status === FALSE) {
+      if (array_key_exists('geo_code_error', $values)) {
+        //$errorMsg = (array)$values['geo_code_error'];
+        //$errorMsg = reset($errorMsg);
+        //$geoCodeStats['status'] .= ' : ' . $errorMsg;
       }
     }
-    elseif ($xml->status == 'ZERO_RESULTS') {
-      $geoCodeStats['status'] = 'No Result';
+    else {
+      $geoCodeStats['status'] = 'Success';
     }
-    elseif ($xml->status == 'OVER_QUERY_LIMIT') {
-      $geoCodeStats['status'] = 'Over Limit';
+  }
+  else {
+    if ($status === TRUE) {
+      $geoCodeStats['status'] = 'Success';
     }
     else {
       $geoCodeStats['status'] = 'Failed';
@@ -200,7 +205,10 @@ function geocodestats_civicrm_geocoderFormat($geoProvider, &$values, $xml) {
 
   if (!empty($geoCodeStats)) {
     $geoCodeStats['address_id'] = $values['id'];
-    $geoCodeStats['provider'] = $geoProvider;
+    $geoCodeStats['provider'] = $geoProviderName;
+    $geoCodeStats['geo_code_1'] = $values['geo_code_1']?? NULL;
+    $geoCodeStats['geo_code_2'] = $values['geo_code_2']?? NULL;
+
     try {
       $result = civicrm_api3('Geocodestats', 'create', $geoCodeStats);
     }

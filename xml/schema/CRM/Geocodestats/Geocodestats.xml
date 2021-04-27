@@ -37,7 +37,14 @@
     <type>varchar</type>
     <length>255</length>
     <default>NULL</default>
+    <html>
+      <type>Select</type>
+    </html>
+    <pseudoconstant>
+      <callback>CRM_Geocodestats_BAO_Geocodestats::status</callback>
+    </pseudoconstant>
   </field>
+
   <field>
     <name>created_date</name>
     <type>timestamp</type>
@@ -51,4 +58,28 @@
     <fieldName>created_date</fieldName>
     <add>5.27</add>
   </index>
+  <field>
+    <name>geo_code_1</name>
+    <uniqueName>geocodestats_geo_code_1</uniqueName>
+    <title>Latitude</title>
+    <type>float</type>
+    <comment>Latitude</comment>
+    <add>5.27</add>
+    <html>
+      <type>Text</type>
+      <size>9</size>
+    </html>
+  </field>
+  <field>
+    <name>geo_code_2</name>
+    <uniqueName>geocodestats_geo_code_2</uniqueName>
+    <title>Longitude</title>
+    <type>float</type>
+    <comment>Longitude</comment>
+    <add>5.27</add>
+    <html>
+      <type>Text</type>
+      <size>9</size>
+    </html>
+  </field>
 </table>

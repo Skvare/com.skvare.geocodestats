@@ -42,3 +42,31 @@ cv en geocodestats
 Visite "Create New Report from Template" page ('civicrm/admin/report/template/list'), Look for 'Geostats for Address'.
 
 Create New Report from this template.
+
+Changes to be needed in Core file
+````patch
+diff --git a/CRM/Core/BAO/Address.php b/CRM/Core/BAO/Address.php
+index 283709aba6..fa84f00f5c 100644
+--- a/CRM/Core/BAO/Address.php
++++ b/CRM/Core/BAO/Address.php
+@@ -1310,7 +1310,20 @@ SELECT is_primary,
+       $providerExists = FALSE;
+     }
+     if ($providerExists) {
+-      $provider::format($params);
++      $status = $provider::format($params);
++      //  ===== Custom Code START =====
++      // This is custom hook, Different Geo coder not initiating 'HOOK_civicrm_geocoderFormat', We can not record geo
++      // coder request and result. So creating new Custom hook
++      if (class_exists('\Civi\Core\Event\GenericHookEvent')) {
++        \Civi::dispatcher()->dispatch('hook_civicrm_geocoderFormatResult',
++          \Civi\Core\Event\GenericHookEvent::create([
++            'provider' => $provider,
++            'params' => &$params,
++            'status' => $status,
++          ])
++        );
++      }
++      // ===== Custom Code END =====
+     }
+````

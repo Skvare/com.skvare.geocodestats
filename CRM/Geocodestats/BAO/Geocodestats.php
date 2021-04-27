@@ -23,4 +23,14 @@ class CRM_Geocodestats_BAO_Geocodestats extends CRM_Geocodestats_DAO_Geocodestat
     return $instance;
   } */
 
+  /**
+   * @return array
+   */
+  public static function status() {
+    $charaset = [
+      'success' => 'Success',
+      'failed' => 'Failed',
+    ];
+    return $charaset;
+  }
 }

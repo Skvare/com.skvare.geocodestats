@@ -52,7 +52,9 @@ CREATE TABLE `civicrm_geocodestats` (
      `address_id` int unsigned    COMMENT 'FK to Contact',
      `provider` varchar(255)   DEFAULT NULL ,
      `status` varchar(255)   DEFAULT NULL ,
-     `created_date` timestamp NULL  DEFAULT CURRENT_TIMESTAMP COMMENT 'When was the Geo code call was initiated.' 
+     `created_date` timestamp NULL  DEFAULT CURRENT_TIMESTAMP COMMENT 'When was the Geo code call was initiated.',
+     `geo_code_1` double    COMMENT 'Latitude',
+     `geo_code_2` double    COMMENT 'Longitude' 
 ,
         PRIMARY KEY (`id`)
  
