@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+
+<table>
+  <base>CRM/Geocodestats</base>
+  <class>Geocodestats</class>
+  <name>civicrm_geocodestats</name>
+  <comment>Geo code stats</comment>
+  <field>
+    <name>id</name>
+    <type>int unsigned</type>
+    <required>true</required>
+    <comment>Unique Geocodestats ID</comment>
+  </field>
+  <primaryKey>
+    <name>id</name>
+    <autoincrement>true</autoincrement>
+  </primaryKey>
+  <field>
+    <name>address_id</name>
+    <type>int unsigned</type>
+    <comment>FK to Contact</comment>
+  </field>
+  <foreignKey>
+    <name>address_id</name>
+    <table>civicrm_address</table>
+    <key>id</key>
+    <onDelete>CASCADE</onDelete>
+  </foreignKey>
+  <field>
+    <name>provider</name>
+    <type>varchar</type>
+    <length>255</length>
+    <default>NULL</default>
+  </field>
+  <field>
+    <name>status</name>
+    <type>varchar</type>
+    <length>255</length>
+    <default>NULL</default>
+  </field>
+  <field>
+    <name>created_date</name>
+    <type>timestamp</type>
+    <comment>When was the Geo code call was initiated.</comment>
+    <required>false</required>
+    <default>CURRENT_TIMESTAMP</default>
+    <add>5.27</add>
+  </field>
+  <index>
+    <name>index_created_date</name>
+    <fieldName>created_date</fieldName>
+    <add>5.27</add>
+  </index>
+</table>
