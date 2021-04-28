@@ -203,7 +203,7 @@ function geocodestats_civicrm_geocoderFormatResult($geoProvider, &$values, $stat
     }
   }
 
-  if (!empty($geoCodeStats)) {
+  if (!empty($geoCodeStats) && !empty($values['id'])) {
     $geoCodeStats['address_id'] = $values['id'];
     $geoCodeStats['provider'] = $geoProviderName;
     $geoCodeStats['geo_code_1'] = $values['geo_code_1']?? NULL;

@@ -70,3 +70,19 @@ index 283709aba6..fa84f00f5c 100644
 +      // ===== Custom Code END =====
      }
 ````
+Pass Address ID for Scheduled job Geocoding operation:
+````patch
+diff --git a/CRM/Utils/Address/BatchUpdate.php b/CRM/Utils/Address/BatchUpdate.php
+index 22177485f3..f60ebe8c4c 100644
+--- a/CRM/Utils/Address/BatchUpdate.php
++++ b/CRM/Utils/Address/BatchUpdate.php
+@@ -161,6 +161,7 @@ class CRM_Utils_Address_BatchUpdate {
+     while ($dao->fetch()) {
+       $totalAddresses++;
+       $params = [
++        'id' => $dao->address_id,
+         'street_address' => $dao->street_address,
+         'postal_code' => $dao->postal_code,
+         'city' => $dao->city,
+
+````
